@@ -15,6 +15,7 @@ module.exports = {
         const title = req.param("title")
         const body = req.param("body")
 
+        //need to test 
         console.log(title + " " + body)
         //allows you to toggle debug statements easily
         sails.log.warn(title + " " + body)
