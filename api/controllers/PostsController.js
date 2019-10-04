@@ -22,7 +22,9 @@ module.exports = {
                 return res.serverError(err.toString())
             }
             console.log("Finished creating post object")
-            return res.end()
+            //can we think about how to this in AJAX? 
+            return res.redirect('/home')
+
         })
     }, 
 
