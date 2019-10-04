@@ -45,5 +45,11 @@ module.exports = {
         const postId = req.param('postId')
         await Post.destroy({id: postId})
         res.send("Finished deleting post")
+    },
+
+    update: async function(req, res) {
+        //how would i implement this? 
+        const postId = req.param('postId')
+        
     }
 }
