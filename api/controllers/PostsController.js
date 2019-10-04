@@ -1,37 +1,41 @@
-//dummy database 
-const post1 = {id: 1, title: "Post Title 1", body: "Here is my body, do with it what you want."}
-const post2 = {id: 2, title: "Post Title 2", body: "Body"}
-const post3 = {id: 3, title: "Post Title 3", body: "Body3"}
-
-const allPosts = [post1, post2, post3]
-
 module.exports = {
-    posts: function(req, res) {
-        //JSON and API Endpoints
-        res.send([allPosts])
+    //for syntax documentation --> look up sails waterline create documentation
+    // async syntax is industry standard
+    posts: async function(req, res) {
+        try {
+            const posts = await Post.find()
+            res.send(posts)
+        } catch (err) {
+            res.serverError(err.toString())
+        }
+
+        // Post.find().exec(function(err, posts){
+        //     if (err) {
+        //         return res.serverError(err.toString())
+        //     }
+        //     res.send(posts)
+        // })
     }, 
 
     create: function(req, res) {
-        const title = req.param("title")
-        const body = req.param("body")
+        const title = req.body.title
+        const postBody = req.body.postBody
 
-        //need to test 
-        console.log(title + " " + body)
-        //allows you to toggle debug statements easily
-        sails.log.warn(title + " " + body)
+        sails.log.debug("My title: " + title)
+        sails.log.debug("Body: " + postBody)
 
-        const newPosts = {id: 4, 
-            title: title, 
-            body: body}
-        allPosts.push(newPosts)
-
-        res.end()
+        Post.create({title:title, body: postBody}).exec(function(err){
+            if(err) {
+                return res.serverError(err.toString())
+            }
+            console.log("Finished creating post object")
+            return res.end()
+        })
     }, 
 
     findById: function(req, res) {
         const postId = req.param('postId')
 
-        //filter function
         const filteredPosts = allPosts.filter(p => {return p.id == postId})
 
         if (filteredPosts.length > 0) {
@@ -40,7 +44,11 @@ module.exports = {
         else {
             res.send("Failed to find post by id: " + postId)
         }
-    
-        res.send(postId)
+    }, 
+
+    delete: async function(req, res) {
+        const postId = req.param('postId')
+        await Post.destroy({id: postId})
+        res.send("Finished deleting post")
     }
 }
