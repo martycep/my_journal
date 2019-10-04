@@ -1,0 +1,16 @@
+<html> 
+    <body style="background-color: rgb(235,235,235)">
+        This will show a list of our posts
+    </body>
+    <div>
+            <% allPosts.forEach(p => {%>
+        <div style="background-color: white, margin: 16px">
+                
+                    <div><%= p.title %></div>
+                    <div><%= p.body %></div>
+                
+        </div>
+        <%}) %>
+        
+    </div>
+</html>

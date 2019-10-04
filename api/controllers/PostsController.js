@@ -8,13 +8,6 @@ module.exports = {
         } catch (err) {
             res.serverError(err.toString())
         }
-
-        // Post.find().exec(function(err, posts){
-        //     if (err) {
-        //         return res.serverError(err.toString())
-        //     }
-        //     res.send(posts)
-        // })
     }, 
 
     create: function(req, res) {
